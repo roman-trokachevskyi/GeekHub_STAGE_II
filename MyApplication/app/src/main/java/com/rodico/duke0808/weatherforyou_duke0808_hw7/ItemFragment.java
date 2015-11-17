@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 
 /**
  * A fragment representing a list of Items.
@@ -17,6 +19,11 @@ import android.widget.ListView;
  */
 public class ItemFragment extends ListFragment {
     MyAdapter adapter;
+    ArrayList<MyWeatherItem> list;
+
+    public void setList(ArrayList<MyWeatherItem> list) {
+        this.list = list;
+    }
 
     private OnFragmentInteractionListener mListener;
 
@@ -36,7 +43,7 @@ public class ItemFragment extends ListFragment {
         String[] from = {"date","day","month","temp","description"};
         int[] to = {R.id.day_of_month_TV,R.id.day_of_week_TV,R.id.month_name_TV,R.id.temperature_TV
                 ,R.id.description_TV};
-        adapter = new MyAdapter(MainActivity.context,MainActivity.list,R.layout.item_layout,from,to);
+        adapter = new MyAdapter(MainActivity.context,list,R.layout.item_layout,from,to);
 
         setListAdapter(adapter);
     }

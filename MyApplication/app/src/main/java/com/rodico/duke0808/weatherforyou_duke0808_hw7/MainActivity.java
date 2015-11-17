@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnFr
     JSONObject weatherJSON=null;
     static String cityName;
     JSONArray JSONlist =null;
-    TextView test;
     static ArrayList<MyWeatherItem> list;
     static Context context;
     ItemFragment listFragment;
@@ -45,11 +44,11 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnFr
 
     private void init() {
         //Cherkassy id = 710791
-        getWeather(703448);
         list = new ArrayList<>();
         detailedViewFragment = null;
         listFragment=null;
         context=this;
+        getWeather(703448);
     }
 
     public void getWeather(int cityId) {
@@ -78,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnFr
     private void onWeatherIsAvailable() throws JSONException, ParseException {
         initList();
         listFragment = new ItemFragment();
+        listFragment.setList(list);
         getSupportFragmentManager().beginTransaction().replace(R.id.list_container, listFragment, "LIST").commit();
     }
 
@@ -112,9 +112,12 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnFr
 
     @Override
     protected void onPause() {
-        super.onPause();
-        getSupportFragmentManager().beginTransaction().remove(listFragment).remove(detailedViewFragment).commit();
+        getSupportFragmentManager().beginTransaction().remove(listFragment).commit();
+        if (detailedViewFragment!=null){
+            getSupportFragmentManager().beginTransaction().remove(detailedViewFragment).commit();
+        }
         listFragment=null;
         detailedViewFragment=null;
+        super.onPause();
     }
 }
