@@ -9,5 +9,4 @@ import java.util.ArrayList;
  */
 public interface MyListItemClickListener {
     public void onClick(int position);
-    public void init(ArrayList<MyWeatherItem> list, MyAdapter adapter, ListView lv);;
 }

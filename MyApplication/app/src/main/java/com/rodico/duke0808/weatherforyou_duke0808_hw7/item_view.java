@@ -4,11 +4,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class item_view extends AppCompatActivity {
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_view);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        Bundle bundle = getIntent().getExtras();
+        position = bundle.getInt("position");
+        DetailedViewFragment fragment = new DetailedViewFragment();
+        fragment.setItem(MainActivity.list.get(position));
+        getSupportFragmentManager().beginTransaction().add(R.id.item_container,fragment).commit();
     }
 }

@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
  * A simple {@link Fragment} subclass.
  */
 public class DetailedViewFragment extends Fragment {
-    MyWeatherItem item;
+    static MyWeatherItem item;
 
     public void setItem(MyWeatherItem item) {
         this.item = item;
