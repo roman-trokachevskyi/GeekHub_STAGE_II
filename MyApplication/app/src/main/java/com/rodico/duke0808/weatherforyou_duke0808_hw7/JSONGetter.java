@@ -63,7 +63,7 @@ public class JSONGetter extends AsyncTask<String,Void,String>{
         try {
             return downloadUrl(urls[0]);
         } catch (IOException e) {
-            return null;
+            return "Network is Unavailable";
         }
     }
 }

@@ -1,7 +1,11 @@
 package com.rodico.duke0808.weatherforyou_duke0808_hw7;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +44,17 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnFr
     @Override
     protected void onResume() {
         super.onResume();
-        init();
+        if (isNetworkAvailable()) {
+            init();
+        } else {
+            new AlertDialog.Builder(this).setTitle("NwtWork Error").setMessage("Netework is unavailable")
+                    .setCancelable(false).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finishActivity();
+                }
+            }).show();
+        }
     }
 
     private void init() {
@@ -51,25 +66,32 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnFr
         getWeather(703448);
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     public void getWeather(int cityId) {
         new JSONGetter(){
             @Override
             protected void onPostExecute(String s) {
                 //writeJSONtxt(s);
-                try {
-                    weatherJSON = new JSONObject(s);
-                    cityName = weatherJSON.getJSONObject("city").get("name").toString();
-                    JSONlist = weatherJSON.getJSONArray("list");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    onWeatherIsAvailable();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                    try {
+                        weatherJSON = new JSONObject(s);
+                        cityName = weatherJSON.getJSONObject("city").get("name").toString();
+                        JSONlist = weatherJSON.getJSONArray("list");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        onWeatherIsAvailable();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
             }
         }.execute("http://api.openweathermap.org/data/2.5/forecast/city?id=" + cityId + "&units=metric&APPID=461b1d305c3126746b780624b5598308");
     }
@@ -119,5 +141,8 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnFr
         listFragment=null;
         detailedViewFragment=null;
         super.onPause();
+    }
+    private void finishActivity(){
+        finish();
     }
 }
