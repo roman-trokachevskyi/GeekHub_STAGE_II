@@ -1,7 +1,12 @@
 package com.rodico.duke0808.weatherforyou_duke0808_hw7;
 
 import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SimpleAdapter;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Map;
@@ -14,4 +19,13 @@ public class MyAdapter extends SimpleAdapter {
         super(context, data, resource, from, to);
     }
 
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view =  super.getView(position, convertView, parent);
+        ImageView imageView = (ImageView) view.findViewById(R.id.list_image_view);
+        String img_cd = MainActivity.list.get(position).get("icon").toString();
+        String url = "http://openweathermap.org/img/w/"+img_cd+".png";
+        Picasso.with(MainActivity.context).load(url).into(imageView);
+        return view;
+    }
 }

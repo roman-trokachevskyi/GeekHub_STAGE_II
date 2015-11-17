@@ -1,11 +1,14 @@
 package com.rodico.duke0808.weatherforyou_duke0808_hw7;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -15,7 +18,15 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class ListFragment extends Fragment {
+    MyListItemClickListener listener;
+
+    public void setListener(MyListItemClickListener listener) {
+        this.listener = listener;
+    }
+
     ArrayList<MyWeatherItem> list;
+    MyAdapter adapter;
+    ListView lv;
 
     public ArrayList<MyWeatherItem> getList() {
         return list;
@@ -39,12 +50,7 @@ public class ListFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        String[] from = {"date","day","month","temp","description"};
-        int[] to = {R.id.day_of_month_TV,R.id.day_of_week_TV,R.id.month_name_TV,R.id.temperature_TV
-        ,R.id.description_TV};
-        MyAdapter adapter = new MyAdapter(MainActivity.context,list,R.layout.item_layout,from,to);
-        ListView lv = (ListView) getView().findViewById(R.id.listView);
-        lv.setAdapter(adapter);
         super.onViewCreated(view, savedInstanceState);
+        listener.init(list,adapter,lv);
     }
 }

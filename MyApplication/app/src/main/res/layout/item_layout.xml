@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="10dp">
 
     <TextView
         android:layout_width="50dp"
@@ -52,7 +53,7 @@
     <ImageView
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
+        android:id="@+id/list_image_view"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/month_name_TV"
         android:layout_alignBottom="@+id/day_of_week_TV"

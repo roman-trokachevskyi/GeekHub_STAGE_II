@@ -1,6 +1,75 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.rodico.duke0808.weatherforyou_duke0808_hw7.DetailedViewFragment">
+    tools:context="com.rodico.duke0808.weatherforyou_duke0808_hw7.DetailedViewFragment"
+    android:orientation="vertical"
+    android:gravity="center">
 
-</FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Weather in XXXXXXX"
+        android:id="@+id/city_TV"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="3dp"
+        android:textSize="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="at 20 July, Fr"
+        android:id="@+id/date_TV"
+        android:layout_marginLeft="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="T: 30*C"
+        android:id="@+id/temp_TV"
+        android:layout_margin="20dp"
+        android:textSize="40dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="blblblblbbl"
+        android:id="@+id/description_TV"
+        android:layout_marginLeft="20dp" />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/detailed_IV"
+        android:layout_marginLeft="40dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Humidity: 100"
+        android:id="@+id/humidity_TV"
+        android:layout_marginLeft="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Wind speed: 100"
+        android:id="@+id/speed_TV"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Wind angle: 100"
+        android:id="@+id/angle_TV"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="3dp" />
+</LinearLayout>
