@@ -46,7 +46,7 @@ public class DetailedViewFragment extends Fragment {
         TextView angleTv = (TextView) getView().findViewById(R.id.angle_TV);
         ImageView imageView = (ImageView) getView().findViewById(R.id.detailed_IV);
 
-        cityTv.setText("Weather in "+MainActivity.cityName);
+        cityTv.setText("Weather in "+ItemFragment.cityName);
         dateTV.setText("at "+item.get("date")+" "+item.get("month")+", "+item.get("day"));
         tempTv.setText("T: "+item.get("temp"));
         descriptionTv.setText(item.get("description").toString());

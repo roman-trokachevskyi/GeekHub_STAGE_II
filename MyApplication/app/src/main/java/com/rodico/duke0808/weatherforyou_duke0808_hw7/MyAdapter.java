@@ -23,7 +23,7 @@ public class MyAdapter extends SimpleAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view =  super.getView(position, convertView, parent);
         ImageView imageView = (ImageView) view.findViewById(R.id.list_image_view);
-        String img_cd = MainActivity.list.get(position).get("icon").toString();
+        String img_cd = ItemFragment.list.get(position).get("icon").toString();
         String url = "http://openweathermap.org/img/w/"+img_cd+".png";
         Picasso.with(MainActivity.context).load(url).into(imageView);
         return view;

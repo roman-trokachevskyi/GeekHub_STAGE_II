@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 
 
@@ -18,8 +23,12 @@ import java.util.ArrayList;
  * interface.
  */
 public class ItemFragment extends ListFragment {
+//    Cherkassy id = 710791
     MyAdapter adapter;
-    ArrayList<MyWeatherItem> list;
+    static ArrayList<MyWeatherItem> list;
+    JSONObject weatherJSON=null;
+    static String cityName;
+    JSONArray JSONlist =null;
 
     public void setList(ArrayList<MyWeatherItem> list) {
         this.list = list;
@@ -37,6 +46,8 @@ public class ItemFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        list=new ArrayList<>();
+        getWeather(710791);
 
 
         // TODO: Change Adapter to display your content
@@ -54,9 +65,45 @@ public class ItemFragment extends ListFragment {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
+
+
+
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    public void getWeather(int cityId) {
+        new JSONGetter(){
+            @Override
+            protected void onPostExecute(String s) {
+                //writeJSONtxt(s);
+                try {
+                    weatherJSON = new JSONObject(s);
+                    cityName = weatherJSON.getJSONObject("city").get("name").toString();
+                    JSONlist = weatherJSON.getJSONArray("list");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    initList();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.execute("http://api.openweathermap.org/data/2.5/forecast/city?id=" + cityId + "&units=metric&APPID=461b1d305c3126746b780624b5598308");
+    }
+
+    private void initList() throws JSONException, ParseException {
+        int count = JSONlist.length();
+        MyWeatherItem item = null;
+        for (int i=0;i<count;i++){
+            item = new MyWeatherItem((JSONObject) JSONlist.get(i));
+            list.add(item);
+            adapter.notifyDataSetChanged();
         }
     }
 
