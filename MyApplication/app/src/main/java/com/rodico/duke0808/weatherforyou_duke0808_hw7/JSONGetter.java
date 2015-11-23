@@ -1,9 +1,6 @@
 package com.rodico.duke0808.weatherforyou_duke0808_hw7;
 
 import android.os.AsyncTask;
-import android.util.Log;
-
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +10,6 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.Buffer;
 
 /**
  * Created by duke0808 on 16.11.15.
@@ -22,10 +18,6 @@ public class JSONGetter extends AsyncTask<String,Void,String>{
 
     private String downloadUrl(String myurl) throws IOException {
         InputStream is = null;
-        // Only display the first 500 characters of the retrieved
-        // web page content.
-        int len = 500;
-
         try {
             URL url = new URL(myurl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -39,7 +31,7 @@ public class JSONGetter extends AsyncTask<String,Void,String>{
             is = conn.getInputStream();
 
             // Convert the InputStream into a string
-            String contentAsString = readIt(is, len);
+            String contentAsString = readIt(is);
             return contentAsString;
 
             // Makes sure that the InputStream is closed after the app is
@@ -50,7 +42,7 @@ public class JSONGetter extends AsyncTask<String,Void,String>{
             }
         }
     }
-    public String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
+    public String readIt(InputStream stream) throws IOException {
         Reader reader = null;
         reader = new InputStreamReader(stream, "UTF-8");
         BufferedReader bufferedReader = new BufferedReader(reader);

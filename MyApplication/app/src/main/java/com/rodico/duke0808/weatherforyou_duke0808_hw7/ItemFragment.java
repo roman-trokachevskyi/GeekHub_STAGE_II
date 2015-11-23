@@ -7,12 +7,16 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.Realm.MyRealmItem;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+
+import io.realm.Realm;
 
 
 /**
@@ -24,6 +28,7 @@ import java.util.ArrayList;
  */
 public class ItemFragment extends ListFragment {
 //    Cherkassy id = 710791
+    Realm realm;
     MyAdapter adapter;
     static ArrayList<MyWeatherItem> list;
     JSONObject weatherJSON=null;
@@ -47,10 +52,9 @@ public class ItemFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         list=new ArrayList<>();
+        realm = Realm.getInstance(MainActivity.context);
         getWeather(710791);
 
-
-        // TODO: Change Adapter to display your content
         String[] from = {"date","day","month","temp","description"};
         int[] to = {R.id.day_of_month_TV,R.id.day_of_week_TV,R.id.month_name_TV,R.id.temperature_TV
                 ,R.id.description_TV};
@@ -88,6 +92,7 @@ public class ItemFragment extends ListFragment {
                 }
                 try {
                     initList();
+                    loadToRealm();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (ParseException e) {
@@ -105,6 +110,15 @@ public class ItemFragment extends ListFragment {
             list.add(item);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public void loadToRealm() throws JSONException {
+        int count = JSONlist.length();
+        realm.beginTransaction();
+        for (int i=0;i<count;i++){
+            realm.createOrUpdateObjectFromJson(MyRealmItem.class,(JSONObject) JSONlist.get(i));
+        }
+        realm.commitTransaction();
     }
 
     @Override
