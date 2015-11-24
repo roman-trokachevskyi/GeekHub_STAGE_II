@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
@@ -33,6 +34,7 @@ import io.realm.RealmResults;
 public class ItemFragment extends ListFragment {
 //    Cherkassy id = 710791
     Realm realm;
+    RealmConfiguration configuration;
     static RealmResults<MyRealmItem> results;
     MyAdapter adapter;
     static ArrayList<MyWeatherItem> list;
@@ -57,7 +59,10 @@ public class ItemFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         list=new ArrayList<>();
-        realm = Realm.getInstance(MainActivity.context);
+
+        configuration = new RealmConfiguration.Builder(MainActivity.context).name("weather-db.realm").build();
+        realm = Realm.getInstance(configuration);
+
         RealmQuery<MyRealmItem> query = realm.where(MyRealmItem.class);
         results = query.findAll();
         adapter=new MyAdapter(MainActivity.context,results,true);
@@ -121,7 +126,12 @@ public class ItemFragment extends ListFragment {
 
     public void loadToRealm() throws JSONException, ParseException {
         int count = JSONlist.length();
+//        realm.close();
+//        Realm.deleteRealm(configuration);
+//        realm = Realm.getInstance(configuration);
+
         realm.beginTransaction();
+        realm.clear(MyRealmItem.class);
         for (int i=0;i<count;i++){
             MyWeatherItem myWeatherItem = new MyWeatherItem((JSONObject) JSONlist.get(i));
             realm.copyToRealmOrUpdate(myWeatherItem.realmItem);
@@ -129,9 +139,6 @@ public class ItemFragment extends ListFragment {
         realm.commitTransaction();
         RealmQuery<MyRealmItem> query = realm.where(MyRealmItem.class);
         results = query.findAll();
-        for (int i=0;i<results.size()-40;i++){
-            results.remove(i);
-        }
         adapter.notifyDataSetChanged();
     }
 

@@ -19,6 +19,9 @@
         </activity>
         <activity android:name=".item_view" >
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="65591074b1e3e51e55ea4312378116f3def798db" />
     </application>
 
 </manifest>
