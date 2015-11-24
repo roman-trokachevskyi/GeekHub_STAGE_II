@@ -6,7 +6,9 @@ import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.rodico.duke0808.weatherforyou_duke0808_hw7.Realm.MyRealmItem;
 
 import org.json.JSONArray;
@@ -17,6 +19,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 
 /**
@@ -29,6 +33,7 @@ import io.realm.Realm;
 public class ItemFragment extends ListFragment {
 //    Cherkassy id = 710791
     Realm realm;
+    static RealmResults<MyRealmItem> results;
     MyAdapter adapter;
     static ArrayList<MyWeatherItem> list;
     JSONObject weatherJSON=null;
@@ -53,14 +58,16 @@ public class ItemFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         list=new ArrayList<>();
         realm = Realm.getInstance(MainActivity.context);
-        getWeather(710791);
-
-        String[] from = {"date","day","month","temp","description"};
-        int[] to = {R.id.day_of_month_TV,R.id.day_of_week_TV,R.id.month_name_TV,R.id.temperature_TV
-                ,R.id.description_TV};
-        adapter = new MyAdapter(MainActivity.context,list,R.layout.item_layout,from,to);
-
+        RealmQuery<MyRealmItem> query = realm.where(MyRealmItem.class);
+        results = query.findAll();
+        adapter=new MyAdapter(MainActivity.context,results,true);
         setListAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        if (MainActivity.isNetworkAv) {
+            getWeather(710791);
+        } else {
+            Toast.makeText(MainActivity.context, "No Network Available", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -91,7 +98,7 @@ public class ItemFragment extends ListFragment {
                     e.printStackTrace();
                 }
                 try {
-                    initList();
+//                    initList();
                     loadToRealm();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -112,13 +119,20 @@ public class ItemFragment extends ListFragment {
         }
     }
 
-    public void loadToRealm() throws JSONException {
+    public void loadToRealm() throws JSONException, ParseException {
         int count = JSONlist.length();
         realm.beginTransaction();
         for (int i=0;i<count;i++){
-            realm.createOrUpdateObjectFromJson(MyRealmItem.class,(JSONObject) JSONlist.get(i));
+            MyWeatherItem myWeatherItem = new MyWeatherItem((JSONObject) JSONlist.get(i));
+            realm.copyToRealmOrUpdate(myWeatherItem.realmItem);
         }
         realm.commitTransaction();
+        RealmQuery<MyRealmItem> query = realm.where(MyRealmItem.class);
+        results = query.findAll();
+        for (int i=0;i<results.size()-40;i++){
+            results.remove(i);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

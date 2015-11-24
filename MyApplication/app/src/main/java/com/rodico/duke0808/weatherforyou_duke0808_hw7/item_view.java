@@ -13,7 +13,7 @@ public class item_view extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         position = bundle.getInt("position");
         DetailedViewFragment fragment = new DetailedViewFragment();
-        fragment.setItem(ItemFragment.list.get(position));
+        fragment.setPosition(position);
         getSupportFragmentManager().beginTransaction().add(R.id.item_container,fragment).commit();
     }
 }

@@ -28,8 +28,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements ItemFragment.OnFragmentInteractionListener{
 
-    //static ArrayList<MyWeatherItem> list;
     static Context context;
+    public static boolean isNetworkAv;
     ItemFragment listFragment;
     DetailedViewFragment detailedViewFragment;
 
@@ -38,43 +38,24 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context=this;
+        isNetworkAv = isNetworkAvailable();
         if (savedInstanceState==null) {
             addFragmentList();
         }
     }
 
     private void addFragmentList() {
-        if (isNetworkAvailable()) {
             listFragment = new ItemFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.list_container, listFragment, "LIST").commit();
-        } else {
-            new AlertDialog.Builder(this).setTitle("NwtWork Error").setMessage("Netework is unavailable")
-                    .setCancelable(false).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //finishActivity();
-                }
-            }).show();
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (isNetworkAvailable()) {
             context=this;
-        } else {
-            new AlertDialog.Builder(this).setTitle("NwtWork Error").setMessage("Netework is unavailable")
-                    .setCancelable(false).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //finishActivity();
-                }
-            }).show();
-        }
     }
 
-    private boolean isNetworkAvailable() {
+    public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -85,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnFr
         FrameLayout itemContainer = (FrameLayout) findViewById(R.id.item_container);
         if (itemContainer!=null){
             detailedViewFragment = new DetailedViewFragment();
-            detailedViewFragment.setItem(ItemFragment.list.get(position));
+            detailedViewFragment.setPosition(position);
             getSupportFragmentManager().beginTransaction().replace(R.id.item_container,detailedViewFragment,"DETAILED").commit();
         } else {
             Intent intent = new Intent(this, item_view.class);

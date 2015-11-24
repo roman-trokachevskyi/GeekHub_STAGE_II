@@ -1,5 +1,7 @@
 package com.rodico.duke0808.weatherforyou_duke0808_hw7;
 
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.Realm.MyRealmItem;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,15 +17,30 @@ import java.util.Locale;
  * Created by duke0808 on 17.11.15.
  */
 public class MyWeatherItem extends HashMap<String, Object> {
+    MyRealmItem realmItem;
     MyWeatherItem(JSONObject jsonObject) throws JSONException, ParseException {
         super();
         this.fromJSON(jsonObject);
+        convertToRealmItem();
     }
-     public void fromJSON(JSONObject json) throws JSONException, ParseException {
+
+    private void convertToRealmItem() {
+        realmItem=new MyRealmItem();
+        realmItem.setDeg((String) this.get("wind_angle"));
+        realmItem.setDescription((String) this.get("description"));
+        realmItem.setDt((Long) this.get("dt"));
+        realmItem.setHumidity((String) this.get("humidity"));
+        realmItem.setSpeed((String) this.get("wind_speed"));
+        realmItem.setIcon((String) this.get("icon"));
+        realmItem.setTemp((String) this.get("temp"));
+    }
+
+    public void fromJSON(JSONObject json) throws JSONException, ParseException {
          //parsing date,day,month
          SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
          String dateStr  = json.getString("dt_txt");
          Date date = sdf.parse(dateStr);
+         this.put("dt",date.getTime());
          Calendar c = Calendar.getInstance();
          c.setTime(date);
          String dateNstr = String.valueOf(c.get(Calendar.DAY_OF_MONTH));

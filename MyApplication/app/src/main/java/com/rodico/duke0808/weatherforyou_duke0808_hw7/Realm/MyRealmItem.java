@@ -9,12 +9,12 @@ import io.realm.annotations.PrimaryKey;
 public class MyRealmItem extends RealmObject {
     @PrimaryKey
     private long dt;
-    private int temp;
-    private int humidity;
+    private String temp;
+    private String humidity;
     private String description;
     private String icon;
-    private float speed;
-    private float deg;
+    private String speed;
+    private String deg;
 
     public long getDt() {
         return dt;
@@ -24,19 +24,19 @@ public class MyRealmItem extends RealmObject {
         this.dt = dt;
     }
 
-    public int getTemp() {
+    public String getTemp() {
         return temp;
     }
 
-    public void setTemp(int temp) {
+    public void setTemp(String temp) {
         this.temp = temp;
     }
 
-    public int getHumidity() {
+    public String getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(int humidity) {
+    public void setHumidity(String humidity) {
         this.humidity = humidity;
     }
 
@@ -56,19 +56,20 @@ public class MyRealmItem extends RealmObject {
         this.icon = icon;
     }
 
-    public float getSpeed() {
+    public String getSpeed() {
         return speed;
     }
 
-    public void setSpeed(float speed) {
+    public void setSpeed(String speed) {
         this.speed = speed;
     }
 
-    public float getDeg() {
+    public String getDeg() {
         return deg;
     }
 
-    public void setDeg(float deg) {
+    public void setDeg(String deg) {
         this.deg = deg;
     }
 }
+

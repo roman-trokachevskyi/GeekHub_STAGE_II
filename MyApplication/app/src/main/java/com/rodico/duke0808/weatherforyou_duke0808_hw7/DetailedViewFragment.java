@@ -9,17 +9,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.Realm.MyRealmItem;
 import com.squareup.picasso.Picasso;
+
+import java.util.Date;
+
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DetailedViewFragment extends Fragment {
-    static MyWeatherItem item;
+    static int position;
 
-    public void setItem(MyWeatherItem item) {
-        this.item = item;
+    public static void setPosition(int position) {
+        DetailedViewFragment.position = position;
     }
 
     public DetailedViewFragment() {
@@ -46,15 +53,19 @@ public class DetailedViewFragment extends Fragment {
         TextView angleTv = (TextView) getView().findViewById(R.id.angle_TV);
         ImageView imageView = (ImageView) getView().findViewById(R.id.detailed_IV);
 
-        cityTv.setText("Weather in "+ItemFragment.cityName);
-        dateTV.setText("at "+item.get("date")+" "+item.get("month")+", "+item.get("day"));
-        tempTv.setText("T: "+item.get("temp"));
-        descriptionTv.setText(item.get("description").toString());
-        humidityTv.setText("Humidity: "+item.get("humidity"));
-        speedTv.setText("Wind speed: "+item.get("wind_speed")+"m/s");
-        angleTv.setText("Wind angle: "+item.get("wind_angle"));
+        cityTv.setText("Weather in " + ItemFragment.cityName);
+        MyRealmItem item = ItemFragment.results.get(position);
 
-        String img_cd = (String) item.get("icon");
+        Date date = new Date();
+        date.setTime(item.getDt());
+        dateTV.setText("at "+ date.toString());
+        tempTv.setText("T: "+item.getTemp());
+        descriptionTv.setText(item.getDescription());
+        humidityTv.setText("Humidity: "+item.getHumidity());
+        speedTv.setText("Wind speed: "+item.getSpeed());
+        angleTv.setText("Wind angle: "+item.getDeg());
+//
+        String img_cd = (String) item.getIcon();
         String url = "http://openweathermap.org/img/w/"+img_cd+".png";
         Picasso.with(MainActivity.context).load(url).into(imageView);
     }
