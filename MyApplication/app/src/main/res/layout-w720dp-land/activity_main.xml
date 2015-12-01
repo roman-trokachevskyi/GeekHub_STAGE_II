@@ -7,10 +7,12 @@
         android:id="@+id/list_container"
         android:layout_weight="2"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"
+        android:background="@color/list_fragment_background"></FrameLayout>
     <FrameLayout
         android:id="@+id/item_container"
         android:layout_weight="1"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"
+        android:padding="25dp"></FrameLayout>
 </LinearLayout>
