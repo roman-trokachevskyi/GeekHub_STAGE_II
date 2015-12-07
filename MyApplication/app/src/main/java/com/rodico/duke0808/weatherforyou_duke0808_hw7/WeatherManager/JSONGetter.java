@@ -1,4 +1,4 @@
-package com.rodico.duke0808.weatherforyou_duke0808_hw7;
+package com.rodico.duke0808.weatherforyou_duke0808_hw7.WeatherManager;
 
 import android.os.AsyncTask;
 

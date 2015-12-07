@@ -17,8 +17,8 @@ import java.util.Locale;
  * Created by duke0808 on 17.11.15.
  */
 public class MyWeatherItem extends HashMap<String, Object> {
-    MyRealmItem realmItem;
-    MyWeatherItem(JSONObject jsonObject) throws JSONException, ParseException {
+    public MyRealmItem realmItem;
+    public MyWeatherItem(JSONObject jsonObject) throws JSONException, ParseException {
         super();
         this.fromJSON(jsonObject);
         convertToRealmItem();

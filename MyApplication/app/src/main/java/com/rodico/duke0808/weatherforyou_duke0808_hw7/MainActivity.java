@@ -1,36 +1,23 @@
 package com.rodico.duke0808.weatherforyou_duke0808_hw7;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.WeatherManager.MyService;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
+import io.fabric.sdk.android.Fabric;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class MainActivity extends AppCompatActivity implements ItemFragment.OnFragmentInteractionListener{
 
-    static Context context;
+    static public Context context;
     public static boolean isNetworkAv;
     ItemFragment listFragment;
     DetailedViewFragment detailedViewFragment;
@@ -45,6 +32,11 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnFr
         if (savedInstanceState==null) {
             addFragmentList();
         }
+        RealmConfiguration configuration = new RealmConfiguration.Builder(MainActivity.context).name("weather-db.realm").build();
+        Realm.setDefaultConfiguration(configuration);
+
+        Intent intent = new Intent(this, MyService.class);
+        startService(intent);
     }
 
     private void addFragmentList() {

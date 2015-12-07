@@ -4,18 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.rodico.duke0808.weatherforyou_duke0808_hw7.Realm.MyRealmItem;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.WeatherManager.WeatherManager;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -33,18 +27,12 @@ import io.realm.RealmResults;
  */
 public class ItemFragment extends ListFragment {
 //    Cherkassy id = 710791
-    Realm realm;
-    RealmConfiguration configuration;
     static RealmResults<MyRealmItem> results;
     MyAdapter adapter;
     static ArrayList<MyWeatherItem> list;
-    JSONObject weatherJSON=null;
     static String cityName;
-    JSONArray JSONlist =null;
+    WeatherManager weatherManager;
 
-    public void setList(ArrayList<MyWeatherItem> list) {
-        this.list = list;
-    }
 
     private OnFragmentInteractionListener mListener;
 
@@ -60,16 +48,20 @@ public class ItemFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         list=new ArrayList<>();
 
-        configuration = new RealmConfiguration.Builder(MainActivity.context).name("weather-db.realm").build();
-        realm = Realm.getInstance(configuration);
+        RealmConfiguration configuration = new RealmConfiguration.Builder(MainActivity.context).name("weather-db.realm").build();
+        Realm realm = Realm.getInstance(configuration);
 
         RealmQuery<MyRealmItem> query = realm.where(MyRealmItem.class);
         results = query.findAll();
         adapter=new MyAdapter(MainActivity.context,results,true);
         setListAdapter(adapter);
         adapter.notifyDataSetChanged();
+//        realm.close();
         if (MainActivity.isNetworkAv) {
-            getWeather(710791);
+//            realm = Realm.getDefaultInstance();
+            weatherManager = WeatherManager.getWeatherManager();
+            weatherManager.getWeather(710791);
+//            getWeather(710791);
         } else {
             Toast.makeText(MainActivity.context, "No Network Available", Toast.LENGTH_SHORT).show();
         }
@@ -90,57 +82,6 @@ public class ItemFragment extends ListFragment {
         }
     }
 
-    public void getWeather(int cityId) {
-        new JSONGetter(){
-            @Override
-            protected void onPostExecute(String s) {
-                //writeJSONtxt(s);
-                try {
-                    weatherJSON = new JSONObject(s);
-                    cityName = weatherJSON.getJSONObject("city").get("name").toString();
-                    JSONlist = weatherJSON.getJSONArray("list");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                try {
-//                    initList();
-                    loadToRealm();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.execute("http://api.openweathermap.org/data/2.5/forecast/city?id=" + cityId + "&units=metric&APPID=461b1d305c3126746b780624b5598308");
-    }
-
-    private void initList() throws JSONException, ParseException {
-        int count = JSONlist.length();
-        MyWeatherItem item = null;
-        for (int i=0;i<count;i++){
-            item = new MyWeatherItem((JSONObject) JSONlist.get(i));
-            list.add(item);
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    public void loadToRealm() throws JSONException, ParseException {
-        int count = JSONlist.length();
-//        realm.close();
-//        Realm.deleteRealm(configuration);
-//        realm = Realm.getInstance(configuration);
-
-        realm.beginTransaction();
-        realm.clear(MyRealmItem.class);
-        for (int i=0;i<count;i++){
-            MyWeatherItem myWeatherItem = new MyWeatherItem((JSONObject) JSONlist.get(i));
-            realm.copyToRealmOrUpdate(myWeatherItem.realmItem);
-        }
-        realm.commitTransaction();
-        RealmQuery<MyRealmItem> query = realm.where(MyRealmItem.class);
-        results = query.findAll();
-        adapter.notifyDataSetChanged();
-    }
 
     @Override
     public void onDetach() {
@@ -170,7 +111,6 @@ public class ItemFragment extends ListFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onFragmentInteraction(int position);
     }
 
