@@ -24,7 +24,6 @@ public class MyService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -48,7 +47,7 @@ public class MyService extends Service {
                 while (true) {
                     mNotificationManager.notify(1,builder.build());
                     try {
-                        sleep(6000);
+                        sleep(30000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
