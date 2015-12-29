@@ -1,4 +1,4 @@
-package com.rodico.duke0808.weatherforyou_duke0808_hw7;
+package com.rodico.duke0808.weatherforyou_duke0808_hw7.view;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,8 +7,10 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.rodico.duke0808.weatherforyou_duke0808_hw7.Realm.MyRealmItem;
-import com.rodico.duke0808.weatherforyou_duke0808_hw7.WeatherManager.WeatherManager;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.util.MyAdapter;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.util.MyWeatherItem;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.realm.MyRealmItem;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.weatherManager.WeatherManager;
 
 import java.util.ArrayList;
 

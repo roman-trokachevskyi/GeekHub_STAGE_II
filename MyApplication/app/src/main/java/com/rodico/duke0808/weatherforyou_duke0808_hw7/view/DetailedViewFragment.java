@@ -1,4 +1,4 @@
-package com.rodico.duke0808.weatherforyou_duke0808_hw7;
+package com.rodico.duke0808.weatherforyou_duke0808_hw7.view;
 
 
 import android.os.Bundle;
@@ -9,14 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.rodico.duke0808.weatherforyou_duke0808_hw7.Realm.MyRealmItem;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.R;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.realm.MyRealmItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
-
-import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
 
 
 /**

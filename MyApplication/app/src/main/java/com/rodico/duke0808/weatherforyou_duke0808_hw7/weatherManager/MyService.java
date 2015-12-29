@@ -1,16 +1,19 @@
-package com.rodico.duke0808.weatherforyou_duke0808_hw7.WeatherManager;
+package com.rodico.duke0808.weatherforyou_duke0808_hw7.weatherManager;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v7.app.NotificationCompat;
 import android.widget.Toast;
 
-import com.rodico.duke0808.weatherforyou_duke0808_hw7.MainActivity;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.view.MainActivity;
 import com.rodico.duke0808.weatherforyou_duke0808_hw7.R;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.view.SettingsActivity;
 
 public class MyService extends Service {
 
@@ -40,16 +43,20 @@ public class MyService extends Service {
                     .setContentIntent(pendingIntentApp)
                     .addAction(R.drawable.autorenew,"Update", pendingIntentDownLoad);
             mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         Thread thread = new Thread(){
             @Override
             public void run() {
                 while (true) {
-                    mNotificationManager.notify(1,builder.build());
-                    try {
-                        sleep(30000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    if (sharedPreferences.getBoolean(getString(R.string.is_notify_enabled_key),false)) {
+                        mNotificationManager.notify(1,builder.build());
+                        try {
+                            sleep(30000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
                     }
                 }
             }

@@ -1,23 +1,21 @@
-package com.rodico.duke0808.weatherforyou_duke0808_hw7;
+package com.rodico.duke0808.weatherforyou_duke0808_hw7.util;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.rodico.duke0808.weatherforyou_duke0808_hw7.Realm.MyRealmItem;
-import com.rodico.duke0808.weatherforyou_duke0808_hw7.Realm.ViewHolder;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.R;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.realm.MyRealmItem;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.realm.ViewHolder;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.view.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;

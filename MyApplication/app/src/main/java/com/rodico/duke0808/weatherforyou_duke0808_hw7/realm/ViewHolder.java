@@ -1,4 +1,4 @@
-package com.rodico.duke0808.weatherforyou_duke0808_hw7.Realm;
+package com.rodico.duke0808.weatherforyou_duke0808_hw7.realm;
 
 import android.widget.ImageView;
 import android.widget.TextView;

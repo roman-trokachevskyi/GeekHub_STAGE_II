@@ -1,18 +1,11 @@
-package com.rodico.duke0808.weatherforyou_duke0808_hw7.WeatherManager;
+package com.rodico.duke0808.weatherforyou_duke0808_hw7.weatherManager;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
-import com.rodico.duke0808.weatherforyou_duke0808_hw7.MainActivity;
 import com.rodico.duke0808.weatherforyou_duke0808_hw7.R;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -33,7 +26,8 @@ public class DownloadWeather extends IntentService {
         RealmConfiguration configuration = new RealmConfiguration.Builder(this).name("weather-db.realm").build();
         Realm.setDefaultConfiguration(configuration);
         WeatherManager weatherManager = WeatherManager.getWeatherManager();
-        weatherManager.getWeather(710791);
+        int code = PreferenceManager.getDefaultSharedPreferences(this).getInt(getString(R.string.location_code_key), 710791);
+        weatherManager.getWeather(code);
     }
 
     @Override

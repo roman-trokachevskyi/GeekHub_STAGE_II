@@ -1,11 +1,10 @@
-package com.rodico.duke0808.weatherforyou_duke0808_hw7;
+package com.rodico.duke0808.weatherforyou_duke0808_hw7.util;
 
-import com.rodico.duke0808.weatherforyou_duke0808_hw7.Realm.MyRealmItem;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.realm.MyRealmItem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

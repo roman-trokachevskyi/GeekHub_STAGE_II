@@ -1,9 +1,8 @@
-package com.rodico.duke0808.weatherforyou_duke0808_hw7.WeatherManager;
+package com.rodico.duke0808.weatherforyou_duke0808_hw7.weatherManager;
 
-import com.rodico.duke0808.weatherforyou_duke0808_hw7.MainActivity;
-import com.rodico.duke0808.weatherforyou_duke0808_hw7.MyAdapter;
-import com.rodico.duke0808.weatherforyou_duke0808_hw7.MyWeatherItem;
-import com.rodico.duke0808.weatherforyou_duke0808_hw7.Realm.MyRealmItem;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.util.MyAdapter;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.util.MyWeatherItem;
+import com.rodico.duke0808.weatherforyou_duke0808_hw7.realm.MyRealmItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,7 +11,6 @@ import org.json.JSONObject;
 import java.text.ParseException;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
